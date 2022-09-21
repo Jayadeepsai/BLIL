@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const userprofile = express();
 const connection=require('../dbconnection')
+const nodemailer = require('nodemailer');
 
 userprofile.use(flash());
 userprofile.use(bodyParser.json());
@@ -16,7 +17,34 @@ userprofile.use(session({
 }));
 
 
-//Signup API "CRUD" operations
+userprofile.post('/sendemail', function(req, res) {
+const transport = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'orumpatisaikrishna00@gmail.com',
+        pass: 'joqxwhbuyaebhzgz',
+    },
+});
+const mailOptions = {
+    from: 'orumpatisaikrishna00@gmail.com',
+    to: 'deepumettela007@gmail.com',
+    subject: 'hello world!',
+    text: 'Email notification is working',
+};
+transport.sendMail(mailOptions, (error,info) => {
+    if (error) {
+        console.log(error);
+        return
+    }
+    res.status(200).json({
+      message:info.response
+    })
+    console.log("Sent: "+ info.response);
+});
+
+});
+
+
 //Create
 
 userprofile.post('/create', function(req, res) {
@@ -258,8 +286,9 @@ userprofile.get('/read',  (req, res)=> {
   
   //Delete
 
-  userprofile.delete('/delete', (req, res)=> {
-    connection.query('DELETE FROM `bliluserdata` WHERE `Email`=?', [req.body.Email], function (err, results, fields) {
+  userprofile.delete('/delete/:DocId', (req, res)=> {
+    const docid=(req.params.DocId)
+    connection.query('DELETE FROM `bliluserdata` WHERE `DocId`=?',docid, function (err, results, fields) {
        if (!err) { 
         var data=JSON.parse(JSON.stringify(results));
         var deletedata =data
@@ -307,4 +336,7 @@ userprofile.get('/read',  (req, res)=> {
   });*/
 
 
+
+
+  
 module.exports=userprofile

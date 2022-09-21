@@ -93,21 +93,28 @@ signup.get('/read',  (req, res)=> {
      });
   });
   
-  //Delete
+  //Delete register data based on id
 
-  signup.delete('/delete', (req, res)=> {
-    connection.query('DELETE FROM `blilusersignupdata` WHERE `Email`=?', [req.body.Email], function (err, results, fields) {
-       if (!err) { 
-        var data=JSON.parse(JSON.stringify(results));
-        var deletedata =data
-        console.log(deletedata)
-        res.status(200).json({data:deletedata ,
-           message:"Data Deleted"})
-         console.log('Data is Deleted');
-       }else{
+  signup.delete('/deleteregisterdata/:DocId', (req, res)=> {
+    const fetchId = req.params.DocId
+    connection.query('DELETE FROM `blilusersignupdata` WHERE `DocId`=?', fetchId, function (err, results, fields) {
+       if (err) { 
         res.status(400).json({
           message:err
          })
+    
+       }else{
+        if(results == null){
+          res.send("wrong")
+     
+        }else{
+          var data=JSON.parse(JSON.stringify(results));
+          var deletedata =data
+        
+          res.status(200).json({data:deletedata ,
+             message:"Data Deleted"})
+           console.log('Data is Deleted');
+        }
        }
      });
   });
@@ -143,16 +150,17 @@ signup.post('/verify',  (req, res)=> {
     });
   });
 
-//filter data by type=blilmanager
+//get only blilmanager register data
 
-  signup.get('/getbytype',  (req, res)=> {
+  signup.get('/getblilregisterdata',  (req, res)=> {
     console.log('working')
-      connection.query('SELECT * FROM bliluserprofile.blilusersignupdata WHERE Type ="blilmanager";', function (err, results, fields) {
+      connection.query('SELECT * FROM bliluserprofile.blilusersignupdata', function (err, results, fields) {
        if(!err) { 
         var data=JSON.parse(JSON.stringify(results));
         var obtaindata =data
-        console.log(obtaindata)
-        res.status(200).json({data:obtaindata ,
+        var filter =obtaindata.filter(x =>x.Type =="blilmanager")
+        console.log(filter)
+        res.status(200).json({data:filter ,
          message :" Type Data" })
          console.log('Get is working');
        }else{
@@ -164,5 +172,96 @@ signup.post('/verify',  (req, res)=> {
     });
 
 
+
+    //get profile details dased on given email
+    signup.get('/profile/:Email',(req, res)=> {
+      const fetchmail=req.params.Email;
+        connection.query('SELECT * FROM bliluserprofile.blilusersignupdata WHERE Email=?',fetchmail, function (err, results, fields) {
+         if(!err) { 
+          var data=JSON.parse(JSON.stringify(results));
+          var obtaindata =data
+          console.log(obtaindata)
+          res.status(200).json({data:obtaindata ,
+           message :'InProgress count'})
+           console.log('InProgress count');
+         }else{
+          res.status(400).json({
+            message:err
+           })
+         }
+       });
+      });
+
+
+      signup.put('/updateRegister/:DocId',  (req, res)=> {
+        const fetchId=req.params.DocId;
+        const lastname=req.body.LastName;
+        const age=req.body.Age;
+        const gender=req.body.Gender;
+        const location=req.body.Location;
+        const phoneno=req.body.PhoneNo;
+        const email=req.body.Email;
+        const eac=req.body.Eac;
+        const pincode=req.body.Pincode;
+        const subject=req.body.Subject;
+        const data=req.body.Data;
+        const type=req.body.Type;
+        const password=req.body.Password;
+        const about=req.body.About;
+        const firstname=req.body.FirstName;
+        connection.query('UPDATE `blilusersignupdata` SET `LastName`=?,`Age`=?,`Gender`=?,`Location`=?,`PhoneNo`=?,`Email`=?,`Eac`=?,`Pincode`=?,`Subject`=?,`Data`=?,`Type`=?,`Password`=?,`About`=?,`FirstName`=? where `DocId`=?',
+         [ lastname,age,gender,location,phoneno,email,eac,pincode,subject,data,type,password,about,firstname,fetchId], 
+         function(err, results, fields){
+           if(!err) { 
+            var data=JSON.parse(JSON.stringify(results));
+            var updatedata =data
+            console.log(updatedata)
+            res.status(200).json({data:updatedata ,
+               message:"Data Updated" })
+             console.log('Data is updated');
+           }else{
+            res.status(400).json({
+              message:err
+             })
+           }
+         });
+      });
+
+
+
+      
+      signup.put('/updateProfile/:Email',  (req, res)=> {
+        const fetchEmail=req.params.Email;
+        const lastname=req.body.LastName;
+        const age=req.body.Age;
+        const gender=req.body.Gender;
+        const location=req.body.Location;
+        const phoneno=req.body.PhoneNo;
+        const email=req.body.Email;
+        const eac=req.body.Eac;
+        const pincode=req.body.Pincode;
+        const subject=req.body.Subject;
+        const data=req.body.Data;
+        const type=req.body.Type;
+        const password=req.body.Password;
+        const about=req.body.About;
+        const firstname=req.body.FirstName;
+        connection.query('UPDATE `blilusersignupdata` SET `LastName`=?,`Age`=?,`Gender`=?,`Location`=?,`PhoneNo`=?,`Email`=?,`Eac`=?,`Pincode`=?,`Subject`=?,`Data`=?,`Type`=?,`Password`=?,`About`=?,`FirstName`=? where `Email`=?',
+         [ lastname,age,gender,location,phoneno,email,eac,pincode,subject,data,type,password,about,firstname,fetchEmail], 
+         function(err, results, fields){
+           if(!err) { 
+            var data=JSON.parse(JSON.stringify(results));
+            var updatedata =data
+            console.log(updatedata)
+            res.status(200).json({data:updatedata ,
+               message:"Data Updated" })
+             console.log('Data is updated');
+           }else{
+            res.status(400).json({
+              message:err
+             })
+           }
+         });
+      });
 
 module.exports=signup
