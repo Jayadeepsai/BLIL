@@ -198,6 +198,7 @@ userprofile.get('/read',  (req, res)=> {
            }
          });
         });
+      
   
         //Open count in DoctorPage
 
