@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer');
 userprofile.use(flash());
 userprofile.use(bodyParser.json());
 userprofile.use(session({ 
-    secret: '123456catr',
+    secret: '123456catr', 
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000 }
@@ -49,7 +49,6 @@ transport.sendMail(mailOptions, (error,info) => {
 
 userprofile.post('/create', function(req, res) {
 
-  
   var MiddleName= req.body.MiddleName;
   var LastName=req.body.LastName;
   var EmergencyFullName= req.body.EmergencyFullName;
@@ -93,7 +92,7 @@ userprofile.post('/create', function(req, res) {
   var FirstName= req.body.FirstName;
 
 
-  var sql = `INSERT INTO  bliluserprofile.bliluserdata (MiddleName,LastName,EmergencyFullName,EmergencyContactNumber,DateofBirth,Nationality,WardNumber,MobileNumber,Email,AddressType,State,Postal, 
+  var sql = `INSERT INTO  blildata.bliluserdata (MiddleName,LastName,EmergencyFullName,EmergencyContactNumber,DateofBirth,Nationality,WardNumber,MobileNumber,Email,AddressType,State,Postal, 
     MaritalStatus,District,Gender,Relationship,HaveInsurance,InsuranceDetails,Id,BlockNumber,Location,Type,Age,TestType,TestResult, 
     Status,Date,Slot,Doctor,PatientId,TestGroup,TestName,DocPageStatus,FilePath,Description,PatientEmail,Subject,Text,BlilEmail,DoctorEmail,FirstName) VALUES 
    ("${MiddleName}","${LastName}","${EmergencyFullName}","${EmergencyContactNumber}","${DateofBirth}","${Nationality}","${WardNumber}","${MobileNumber}","${Email}","${AddressType}","${State}", 
@@ -119,7 +118,7 @@ userprofile.post('/create', function(req, res) {
 
 userprofile.get('/read',  (req, res)=> {
   console.log('working')
-    connection.query('SELECT * FROM bliluserprofile.bliluserdata;', function (err, results, fields) {
+    connection.query('SELECT * FROM blildata.bliluserdata;', function (err, results, fields) {
      if(!err) { 
       var data=JSON.parse(JSON.stringify(results));
       var obtaindata =data
@@ -139,7 +138,7 @@ userprofile.get('/read',  (req, res)=> {
 
   userprofile.get('/inprogresscount/:Email',(req, res)=> {
     const fetchmail=req.params.Email;
-      connection.query('SELECT * FROM bliluserprofile.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
+      connection.query('SELECT * FROM blildata.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
        if(!err) { 
         var data=JSON.parse(JSON.stringify(results));
         let vv = data.filter(x=> x.DocPageStatus == 'InProgress')
@@ -160,7 +159,7 @@ userprofile.get('/read',  (req, res)=> {
 
     userprofile.get('/assignbacktoblilcount/:Email',(req, res)=> {
       const fetchmail=req.params.Email;
-        connection.query('SELECT * FROM bliluserprofile.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
+        connection.query('SELECT * FROM blildata.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
          if(!err) { 
           var data=JSON.parse(JSON.stringify(results));
           let vv = data.filter(x=> x.DocPageStatus == 'Assign back to BLIL')
@@ -182,7 +181,7 @@ userprofile.get('/read',  (req, res)=> {
 
       userprofile.get('/completedcount/:Email',(req, res)=> {
         const fetchmail=req.params.Email;
-          connection.query('SELECT * FROM bliluserprofile.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
+          connection.query('SELECT * FROM blildata.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
            if(!err) { 
             var data=JSON.parse(JSON.stringify(results));
             let vv = data.filter(x=> x.DocPageStatus == 'Completed')
@@ -204,7 +203,7 @@ userprofile.get('/read',  (req, res)=> {
 
         userprofile.get('/opencount/:Email',(req, res)=> {
           const fetchmail=req.params.Email;
-            connection.query('SELECT * FROM bliluserprofile.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
+            connection.query('SELECT * FROM blildata.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
              if(!err) { 
               var data=JSON.parse(JSON.stringify(results));
               let vv = data.filter(x=> x.DocPageStatus == 'Open')
@@ -225,7 +224,7 @@ userprofile.get('/read',  (req, res)=> {
 
   userprofile.get('/getdoctdatatodocportal/:Email',(req, res)=> {
     const fetchmail=req.params.Email;
-      connection.query('SELECT * FROM bliluserprofile.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
+      connection.query('SELECT * FROM blildata.bliluserdata WHERE Email=?',fetchmail, function (err, results, fields) {
        if(!err) { 
         var data=JSON.parse(JSON.stringify(results));
         var obtaindata =data

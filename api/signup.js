@@ -16,7 +16,7 @@ signup.use(session({
 }));
 
 
-signup.post('/insert', function(req, res) {
+/*signup.post('/insert', function(req, res) {
 console.log('working')
     var FirstName= req.body.FirstName;
     var LastName=req.body.LastName;
@@ -33,7 +33,7 @@ console.log('working')
     var Password=req.body.Password;
     var About=req.body.About;
 
-    var sql = `INSERT INTO  bliluserprofile.blilusersignupdata (FirstName,LastName,Age,Gender,Location,PhoneNo,Email,Eac,Pincode,Subject,Data,Type,Password,About) VALUES 
+    var sql = `INSERT INTO  blildata.blilusersignupdata (FirstName,LastName,Age,Gender,Location,PhoneNo,Email,Eac,Pincode,Subject,Data,Type,Password,About) VALUES 
      ("${FirstName}","${LastName}","${Age}","${Gender}","${Location}","${PhoneNo}","${Email}","${Eac}","${Pincode}","${Subject}","${Data}","${Type}","${Password}","${About}")`;
    // console.log(sql)
    connection.query(sql, function(err, result){
@@ -49,14 +49,14 @@ console.log('working')
        })
      }
     });
-    });
+    });*/
 
 
 //Read
 
 signup.get('/read',  (req, res)=> {
   console.log('working')
-    connection.query('SELECT * FROM bliluserprofile.blilusersignupdata;', function (err, results, fields) {
+    connection.query('SELECT * FROM blildata.blilusersignupdata;', function (err, results, fields) {
      if(!err) { 
       var data=JSON.parse(JSON.stringify(results));
       var obtaindata =data
@@ -154,7 +154,7 @@ signup.post('/verify',  (req, res)=> {
 
   signup.get('/getblilregisterdata',  (req, res)=> {
     console.log('working')
-      connection.query('SELECT * FROM bliluserprofile.blilusersignupdata', function (err, results, fields) {
+      connection.query('SELECT * FROM blildata.blilusersignupdata', function (err, results, fields) {
        if(!err) { 
         var data=JSON.parse(JSON.stringify(results));
         var obtaindata =data
@@ -176,7 +176,7 @@ signup.post('/verify',  (req, res)=> {
     //get profile details dased on given email
     signup.get('/profile/:Email',(req, res)=> {
       const fetchmail=req.params.Email;
-        connection.query('SELECT * FROM bliluserprofile.blilusersignupdata WHERE Email=?',fetchmail, function (err, results, fields) {
+        connection.query('SELECT * FROM blildata.blilusersignupdata WHERE Email=?',fetchmail, function (err, results, fields) {
          if(!err) { 
           var data=JSON.parse(JSON.stringify(results));
           var obtaindata =data
