@@ -7,6 +7,9 @@ const app = express();
 
 const userprofile=require('./api/userprofile');
 const signup=require('./api/signup');
+//const validation=require('./validation');
+const router=require('./router');
+const indexRouter = require('./router.js');
 
 
 app.use(flash());
@@ -20,7 +23,10 @@ app.use(session({
 
 
 app.use('/userprofile',userprofile);
-app.use('/signup',signup)
+app.use('/signup',signup);
+//app.use('/validation',validation);
+app.use('/router',router);
+app.use('/api', indexRouter);
 
 
 module.exports = app
