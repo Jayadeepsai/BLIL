@@ -4,7 +4,7 @@ const connection= mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '7700',
-    database: 'bliluserprofile',
+    database: 'blildata',
     multipleStatements: true
   
   })
