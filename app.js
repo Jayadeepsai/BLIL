@@ -8,8 +8,8 @@ const app = express();
 const userprofile=require('./api/userprofile');
 const signup=require('./api/signup');
 //const validation=require('./validation');
-const router=require('./router');
-const indexRouter = require('./router.js');
+const router=require('./api/router');
+const indexRouter = require('./api/router.js');
 
 
 app.use(flash());

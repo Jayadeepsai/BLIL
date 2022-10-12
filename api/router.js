@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const db  = require('./dbConnection');
-const { signupValidation, loginValidation } = require('./validation');
+const db  = require('../dbConnection');
+const { signupValidation, loginValidation } = require('../validation');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const createError = require('http-errors');
 //const express = require('express');
-const path = require('path');
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 //const indexRouter = require('./router.js');
