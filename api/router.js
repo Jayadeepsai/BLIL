@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db  = require('../dbConnection');
+const connection = require('../dbConnection');
 const { signupValidation, loginValidation } = require('../validation');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -30,8 +30,8 @@ router.use(cors());
 
 router.post('/register', signupValidation, (req, res, next) => {
 
-    db.query(
-      `SELECT * FROM blilusersignupdata WHERE LOWER(Email) = LOWER(${db.escape(
+    connection.query(
+      `SELECT * FROM blilusersignupdata WHERE LOWER(Email) = LOWER(${connection.escape(
     req.body.Email
 )});`,
       (err, result) => {
@@ -50,10 +50,10 @@ router.post('/register', signupValidation, (req, res, next) => {
 });
    } else {
 // has hashed pw => add to database
-db.query(
-    `INSERT INTO blilusersignupdata (FirstName,LastName,Age,Gender,Location,PhoneNo,Eac,Pincode,Subject,Data,Type,About, Email, Password) VALUES ('${req.body.FirstName}','${req.body.LastName}','${req.body.Age}','${req.body.Gender}','${req.body.Location}','${req.body.PhoneNo}','${req.body.Eac}','${req.body.Pincode}','${req.body.Subject}','${req.body.Data}','${req.body.Type}','${req.body.About}', ${db.escape(
+connection.query(
+    `INSERT INTO blilusersignupdata (FirstName,LastName,Age,Gender,Location,PhoneNo,Eac,Pincode,Subject,Data,Type,About, Email, Password) VALUES ('${req.body.FirstName}','${req.body.LastName}','${req.body.Age}','${req.body.Gender}','${req.body.Location}','${req.body.PhoneNo}','${req.body.Eac}','${req.body.Pincode}','${req.body.Subject}','${req.body.Data}','${req.body.Type}','${req.body.About}', ${connection.escape(
     req.body.Email
-)}, ${db.escape(hash)})`,
+)}, ${connection.escape(hash)})`,
     (err, result) => {
     if (err) {
 throw err;
@@ -69,8 +69,8 @@ throw err;
 
 
 router.post('/login', loginValidation, (req, res, next) => {
-   db.query(
-   `SELECT * FROM blilusersignupdata WHERE Email = ${db.escape(req.body.Email)};`,
+   connection.query(
+   `SELECT * FROM blilusersignupdata WHERE Email = ${connection.escape(req.body.Email)};`,
    (err, result) => {
 // user does not exists
    if (err) {
@@ -98,7 +98,7 @@ router.post('/login', loginValidation, (req, res, next) => {
 }
    if (bResult) {
    const token = jwt.sign({DocId:result[0].DocId},'the-super-strong-secrect',{ expiresIn: '1h' });
-   db.query(
+   connection.query(
    `UPDATE blilusersignupdata SET last_login = now() WHERE DocId = '${result[0].DocId}'`
 );
     return res.status(200).send({
@@ -125,7 +125,7 @@ router.post('/get-user', signupValidation, (req, res, next) => {
 }
     const theToken = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(theToken, 'the-super-strong-secrect');
-  db.query('SELECT * FROM blilusersignupdata where DocId=?', decoded.DocId, function (error, results, fields) {
+  connection.query('SELECT * FROM blilusersignupdata where DocId=?', decoded.DocId, function (error, results, fields) {
     if (error) throw error;
     return res.send({ error: false, data: results[0], message: 'Fetch Successfully.' });
 });
