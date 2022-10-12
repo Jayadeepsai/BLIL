@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const app = express();
 
-const userprofile=require('./api/userprofile');
-const signup=require('./api/signup');
+const userprofile=require('../app/api/userprofile');
+const signup=require('../app/api/signup');
 //const validation=require('./validation');
-const router=require('./api/router');
-const indexRouter = require('./api/router.js');
+const router=require('../app/api/router');
+const indexRouter = require('../app/api/router');
 
 
 app.use(flash());

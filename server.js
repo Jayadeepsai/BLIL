@@ -1,5 +1,5 @@
 const http = require('http');
-const app = require('./app')
+const app = require('./app/app')
 // Create an instance of the http server to handle HTTP requests
 const port =process.env.PORT || 8000;
 
