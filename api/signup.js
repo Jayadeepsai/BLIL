@@ -123,7 +123,7 @@ signup.get('/read',  (req, res)=> {
 
 //login post api
 
-signup.post('/verify',  (req, res)=> {
+/*signup.post('/verify',  (req, res)=> {
 
     var mail=req.body.Email;
     var password=req.body.Password;
@@ -149,6 +149,8 @@ signup.post('/verify',  (req, res)=> {
        }
     });
   });
+*/
+
 
 //get only blilmanager register data
 
