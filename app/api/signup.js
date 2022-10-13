@@ -2,19 +2,19 @@ const mysql=require('mysql');
 const express= require('express');
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
-//const session = require('express-session');
+const session = require('express-session');
 const signup = express.Router();
 const connection=require('c:/Users/jayad/Desktop/Login nodejs/app/dbconnection')
 
 signup.use(flash());
 signup.use(bodyParser.json());
-/*signup.use(session({ 
+signup.use(session({ 
     secret: '123456catr',
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000 }
 }));
-*/
+
 
 /*signup.post('/insert', function(req, res) {
 console.log('working')
