@@ -39,4 +39,4 @@ app.use('/router',router);
 app.use('/api', indexRouter);
 
 
-module.exports = app
+module.exports =app

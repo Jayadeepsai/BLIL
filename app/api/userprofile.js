@@ -2,19 +2,19 @@ const mysql=require('mysql');
 const express= require('express');
 const flash = require('connect-flash');
 const bodyParser = require('body-parser');
-const session = require('express-session');
+//const session = require('express-session');
 const userprofile = express();
 const connection=require('c:/Users/jayad/Desktop/Login nodejs/app/dbconnection')
 const nodemailer = require('nodemailer');
 
 userprofile.use(flash());
 userprofile.use(bodyParser.json());
-userprofile.use(session({ 
+/*userprofile.use(session({ 
     secret: '123456catr', 
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60000 }
-}));
+}));*/
 
 
 userprofile.post('/sendemail', function(req, res) {
