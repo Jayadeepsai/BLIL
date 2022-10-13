@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../dbConnection');
+const connection = require('c:/Users/jayad/Desktop/Login nodejs/app/dbconnection');
 const { signupValidation, loginValidation } = require('c:/Users/jayad/Desktop/Login nodejs/app/api/validation');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -74,9 +74,11 @@ router.post('/login', loginValidation, (req, res, next) => {
    (err, result) => {
 // user does not exists
    if (err) {
+      console.log(err)
    throw err;
    return res.status(400).send({
    msg: err
+   
 });
 }
    if (!result.length) {
